@@ -8,35 +8,28 @@ import java.sql.SQLException;
 import vo.*;
 
 public class SignDao {
+	
 	// 아이디체크			
 	public String idCheck(Connection conn, String id) throws SQLException {
-		String ckId = null;
 		
+			System.out.println("Signdao idCheck");
+			String ckId = null;
 
+			String sql = "SELECT t.id FROM (SELECT customer_id id FROM customer UNION SELECT employee_id id FROM employee UNION SELECT out_id id FROM outid) t WHERE t.id=?";
+			// 세개중에 있으면 쓸수없다 
 		
-		// if(rs!=null) {}
-		// close....
-		
-		String sql = "SELECT t.id\r\n"
-				+ "		FROM 	(SELECT customer_id id FROM customer\r\n"
-				+ "				UNION\r\n"
-				+ "				SELECT	employee_id id FROM employee\r\n"
-				+ "				UNION\r\n"
-				+ "				SELECT out_id id FROM outid) t\r\n"
-				+ "		WHERE t.id=?";
-		
-		PreparedStatement stmt= null;
-		ResultSet rs = null;
-		
-		
+			PreparedStatement stmt= null;
+			ResultSet rs = null;
+
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, id);			
 			rs = stmt.executeQuery();
+
+			if(rs.next()) {	
+				ckId = rs.getString("t.id");
+			}	
 			
-		
-			if(rs==null) {stmt.close();}
-			else {rs.close();}
-			
-		return ckId;
+			System.out.println("Signdao idCheck : " + ckId);
+			return ckId;
 	}
 }

@@ -10,42 +10,45 @@ import java.sql.Statement;
 import java.util.*;
 
 public class GoodsDao {
-	
-	
-		// 반환값 ; key값  >>> 동시입력이란게 너무 어렵고 복잡함 >>> 그 api쓸거래
-	   public int insertGoods(Connection conn, Goods goods) throws SQLException {
-		  int keyId=0;
-		   
-		   /*
-		    INSERT INTO
-		   */
-		   
-		   // 																		┌ 1을 리턴함 
-		   PreparedStatement stmt = conn.prepareStatement("INSERT...." , Statement.RETURN_GENERATED_KEYS);
+	 
+	//상품추가
+	public int insertGoods(Connection conn, Goods goods) throws SQLException {
+		int keyId = 0;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "INSERT INTO goods (goods_name, goods_price, update_date, create_date, sold_out) VALUES (?,?,now(),now(),?)";
+		try{
+			// 쿼리 실행
+			stmt = conn.prepareStatement(sql , Statement.RETURN_GENERATED_KEYS);
+			
+			// 1) insert
+			
+			stmt.setString(1, goods.getGoodsName());
+			stmt.setInt(2, goods.getGoodsPrice());
+			stmt.setString(3, goods.getSoldOut());
+			// 디버깅
+			System.out.println("\ninsertGoods - stmt : " + stmt);
+			
+			stmt.executeUpdate();
+			rs = stmt.getGeneratedKeys(); // select last_key
+			if(rs.next()) {
+				keyId = rs.getInt(1);
+			}
+		}finally {
+			// DB 자원해제
+			if(rs != null) {
+				rs.close();
+			}
+			if(stmt != null) {
+				stmt.close();
+			}
+		}
+		// 디버깅
+		System.out.println("\ninsertGoods - keyId : " + keyId);
+		return keyId;
+	} // end insertGoods
 
-		   ResultSet rs = stmt.getGeneratedKeys(); // 
-		   
-		   if(rs.next()) {
-			   keyId =  rs.getInt(1);
-		   }
-		   
-		   if(stmt!=null) {
-			   stmt.close();
-		   }
-		   
-		   if(rs!=null) {
-			   stmt.close();
-		   }
-		   return keyId;
-	   }
 	
-	
-	
-	
-	// 조인을 한다면 어디서 봐? 부모(메인이 되는, 왼쪽에 오는) 쪽에
-	//	
-
-	//	┌굿즈 넘버 받아야하니깡
 	   public Map<String, Object> selectGoodsAndImgOne(Connection conn, int goodsNo) throws SQLException {
 	
 		String sql ="SELECT g.goods_no,"
@@ -95,7 +98,7 @@ public class GoodsDao {
 	
 	public int lastPage(Connection conn) throws SQLException {
 		
-		String sql= "SELECT COUNT(*) FROM goods"; // count(*)함수 >> 고를때마다 +1(약간 java에서 > sum++ 하는 느낌으로)
+		String sql= "SELECT COUNT(*) FROM goods"; 
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		int totalRow = 0; // 전체페이지
@@ -119,8 +122,6 @@ public class GoodsDao {
 		}		
 		return totalRow;
 	}
-	
-	
 	
 															
 	public List<Goods> selectGoodsListByPage(Connection conn, final int rowPerPage , int beginRow) throws Exception{
@@ -161,10 +162,8 @@ public class GoodsDao {
 	         if(stmt!=null) {stmt.close();}
 	      
 	      }
-	      
-	      
+	       
 	      return list;
-	      
-	      
+	        
 	   }
 }

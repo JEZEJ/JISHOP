@@ -4,8 +4,6 @@
     pageEncoding="UTF-8"%>
     
 
-
-
 <%
 	// 인코딩
 	request.setCharacterEncoding("utf-8");
@@ -15,8 +13,6 @@
 	String employeePass = request.getParameter("employeePass");
 	String employeeName = request.getParameter("employeeName");
 
-	
-	
 	// Employee 객체 생성 후 값들 넣어주기	
 	Employee paramEmployee = new Employee();
 	paramEmployee.setEmployeeId(employeeId);
@@ -25,13 +21,12 @@
 	
 	
 	// 디버깅
-	System.out.println(paramEmployee +"<-paramEmployee");
-	
-	// CustomerService 객체 생성 후 메서드실행수 Customer객체 넣어주기
+	System.out.println("내가 회원가입하기위해 입력한 값 : "+ paramEmployee);
+
 	EmployeeService employeeService = new EmployeeService();
 	employeeService.signInEmployee(paramEmployee);
 	
-	
-	response.sendRedirect(request.getContextPath()+"/index.jsp");
+	//회원가입이 완료되면 로그인폼으로 돌아가기
+	response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
 
 %>

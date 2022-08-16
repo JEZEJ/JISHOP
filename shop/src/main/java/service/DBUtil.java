@@ -14,13 +14,9 @@ public class DBUtil {
 		String dbpw = "1234";
 		
 		Connection conn= DriverManager.getConnection(url, dbuser, dbpw);
-	
-		
-		
 		
 		return conn;
 		
 	}
-	
 	
 }

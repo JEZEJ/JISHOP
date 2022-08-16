@@ -4,7 +4,10 @@
 <%@page import="service.GoodsService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-	int rowPerPage = 2; //한페이지당 보여줄 행수 
+
+	// 상품 이미지 안나옴..
+	
+	int rowPerPage = 5; //한페이지당 보여줄 행수 
 	int currentPage = 1; //처음 시작할 현재 페이지
 	int lastPage = 0;
 	

@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>직원회원가입</title>
 </head>
 <body>
 <!--  id ck Form -->
@@ -13,28 +13,25 @@
 		<div>
 			ID 체크
 			<input type="text" name="ckId">
-			<button type="submit"> 아이디중복검사 </button>	<!-- 버튼누르면 액션을 idcheck 액션호출하고 -->
+			<button type="submit"> 아이디중복검사 </button>	<!-- 버튼누르면 EmployeeidcheckAction 호출 -->
 		</div>
 	</form>
-	
-	<!-- 자스를 이용해 위에서 중복검사로 허락 받은 아디가 밑에 자동 기록되게 할거야! -->
-	<!-- idCheckAction에서 true가 들어오면 -->
-	
+
 	<%
 		String ckId="";
 		if(request.getParameter("ckId") !=null) {
-				ckId = request.getParameter("ckId"); // 액션 지나서 낫눌이라 넘어온 아이디 ★
+				ckId = request.getParameter("ckId"); 
 		}
 	%>
 	
 	
-	<!--  고객가입 Form -->	
+	<!--  직원가입 Form -->	
 	<form action="<%=request.getContextPath()%>/EmployeeidAddAction.jsp" method="post">
 		<table border="1">
 			<tr>
 				<td> employeeId </td>
 				<td><input type="text" name="employeeId" id="employeeId" 
-				readonly="readonly" value="<%=ckId%>"> <!-- ★이 여기로 기입  -->
+				readonly="readonly" value="<%=ckId%>"> <!-- 아이디값이 넘어옴 -->
 				</td>
 			</tr>
 			<tr>					

@@ -18,51 +18,54 @@ public class GoodsService {
 	private GoodsImgDao goodsImgDao;
 	private GoodsDao goodsDao;	
 
-
-	
-	// 두개의 인서트를 하나의 트랜젝션으로해야한대
-	public int addGoods(Goods goods, GoodsImg goodsImg) {
+	// 이미지 업로드
+	public void addGoods(Goods goods, GoodsImg goodsImg) {
+		// 메서드 사용할 객체생성
+		DBUtil dbUtil = new DBUtil();
+		this.goodsDao = new GoodsDao();
+		int goodsNo = 0;
 		Connection conn = null;
 		
-		PreparedStatement goodsStmt = null;
-		PreparedStatement imgStat = null;		
-		//쿼리가 두개래
-		
-		
 		try {
-			conn = new DBUtil().getConnection();
+			conn = dbUtil.getConnection();
+			// 디버깅
+			System.out.println("GoodsService.java addGoods conn : " + conn);
+			
+			// 자동 commit 끄기
 			conn.setAutoCommit(false);
+			
 			goodsDao = new GoodsDao();
 			goodsImgDao = new GoodsImgDao();
 			
-			int goodsNo = goodsDao.insertGoods(conn, goods); // goodsNo가 없어도 오토인크리먼트로 자동생성되어 DB에 입력
+			goodsNo = goodsDao.insertGoods(conn, goods); // goodsNo가 AI로 자동생성되어 DB입력
 			
-			if(goodsNo !=0) { // 0이아니면 키값 받아왓다는 소리
-				goodsImg.setGoodsNo(goodsNo); // vo만들어야 오류 안난다는데
-				if(goodsImgDao.insertGoodsImg(conn, goodsImg) ==0) { // 입력실패
-					throw new Exception(); // 이미지 입력실패시 강제로 롤백(catch절 이동)
+			if(goodsNo != 0) { // 0이 아니면 키가 있다는 뜻
+				// 키값 setter
+				goodsImg.setGoodsNo(goodsNo);
+				
+				if(goodsImgDao.insertGoodsImg(conn, goodsImg) == 0) {
+					throw new Exception(); 
 				}
-				}
+			}
 			
-			conn.commit(); // 예외 업승ㄹ 때만 컵밋
+			conn.commit();
 		} catch(Exception e) {
+			e.printStackTrace();
+			// Exception 발생시
 			try {
 				conn.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
+			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-		} finally {	
+		} finally {
 			try {
 				conn.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		return 0;		
 	}
-	
+
 	
 	public Map<String, Object> getGoodsAndImgOne(int goodsNo) {
 		Map<String,Object> map = null;
@@ -167,21 +170,21 @@ public class GoodsService {
 			if(list==null ) {
 				throw new Exception();
 			}
-			conn.commit(); // list에 무사히 들어오면 커밋 ㄱ
+			conn.commit(); 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		
 			e.printStackTrace();
 			try {
-				conn.rollback(); // 뭔가 잘못되며 보고후에 돌아갈거야
+				conn.rollback(); 
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
+				
 				e1.printStackTrace();
 			}
 		} finally {
 			try {
 				conn.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 		}
