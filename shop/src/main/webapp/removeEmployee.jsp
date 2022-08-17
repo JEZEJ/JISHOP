@@ -6,7 +6,6 @@
 
 
 <%
-	// ...
 	
 	// 변수받아오기
 	String Pass = request.getParameter("Pass");
@@ -31,4 +30,5 @@
 	
 	
 	response.sendRedirect(request.getContextPath()+"/logout.jsp");
+	
 %>

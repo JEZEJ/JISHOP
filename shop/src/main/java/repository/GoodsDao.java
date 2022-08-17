@@ -128,7 +128,7 @@ public class GoodsDao {
 	      
 		   
 	      String sql = "SELECT goods_no,goods_name,goods_price,update_date , create_date ,sold_out FROM goods ORDER BY goods_no DESC LIMIT ?, ?";
-	      List<Goods> list = new ArrayList<Goods>(); // 주의! List<> *** = new ArrayList<>();
+	      List<Goods> list = new ArrayList<Goods>(); 
 	            
 	      PreparedStatement stmt = null;
 	      Goods goods =new Goods();
@@ -139,8 +139,6 @@ public class GoodsDao {
 	         stmt.setInt(1, beginRow);
 	         stmt.setInt(2, rowPerPage);
 	         rs = stmt.executeQuery();
-	         
-	         
 	         
 	         while(rs.next()) {
 	            goods = new Goods();   

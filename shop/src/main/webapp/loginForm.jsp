@@ -14,7 +14,7 @@
 </head>
 
 <body>
-	<div id="Login"><!-- 쇼핑몰 고객 로그인 갑자기 안됌....해야해... -->
+	<div id="Login">
 		<h1>고객 로그인</h1> <!-- 회원가입 한 모든 회원 로그인 가능 -->
 		<form action="<%=request.getContextPath()%>/customerloginAction.jsp" method="post">
 			<fieldset>
@@ -63,25 +63,25 @@
 </body>
 
 <script>
-	$('#customerBtn').click(function() {
-		if ($('#customerId').val() == '') {
-			window.alert('고객 아이디를 입력하세요');
-		} else if ($('#customerPass').val() == '') {
-			window.alert('고객 비밀번호를 입력하세요');
-		} else {
-			customerForm.submit();
-		}
-	});
-
-	$('#employeeBtn').click(function() {
-		if ($('#employeeId').val() == '') {
-			window.alert('스텝 아이디를 입력하세요');
-		} else if ($('#employeePass').val() == '') {
-			window.alert('스텝 비밀번호를 입력하세요');
-		} else {
-			employeeForm.submit();
-		}
-	});
+		$('#customerBtn').click(function() {
+			if ($('#customerId').val() == '') {
+				window.alert('고객 아이디를 입력하세요');
+			} else if ($('#customerPass').val() == '') {
+				window.alert('고객 비밀번호를 입력하세요');
+			} else {
+				customerForm.submit();
+			}
+		});
+	
+		$('#employeeBtn').click(function() {
+			if ($('#employeeId').val() == '') {
+				window.alert('스텝 아이디를 입력하세요');
+			} else if ($('#employeePass').val() == '') {
+				window.alert('스텝 비밀번호를 입력하세요');
+			} else {
+				employeeForm.submit();
+			}
+		});
 </script>
 
 </html>

@@ -119,7 +119,7 @@ public class CustomerService {
 		}
 		
 		//회원정보상세보기
-		public Customer customerOne (Customer paramCustomer) {
+		public Customer customerOne (String customerId) {
 			
 			Connection conn = null;
 			Customer customer = new Customer();
@@ -129,9 +129,8 @@ public class CustomerService {
 				conn.setAutoCommit(false);
 				
 				CustomerDao customerDao = new CustomerDao();			
-				customer=customerDao.selectCustomer(conn, paramCustomer);
-				
-				
+				customer = customerDao.selectCustomerOne(conn, customerId);
+					
 				conn.commit();
 				
 				} catch (Exception e) {
@@ -144,6 +143,7 @@ public class CustomerService {
 						e.printStackTrace();
 					}	
 				}
+			
 			return customer;
 		}
 	}

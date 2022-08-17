@@ -1,20 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-      
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       
 <%
-
-	if(session.getAttribute("user") == null) { // 로긴한 애가 아니면
+	if(session.getAttribute("user") == null) { 
 		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
 			
 		return;
 	} 
-	
-	
 		
 %>        
-    
     
     
 <!DOCTYPE html>

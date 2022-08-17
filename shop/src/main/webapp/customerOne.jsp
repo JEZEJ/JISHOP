@@ -1,13 +1,19 @@
+<%@page import="service.CustomerService"%>
+<%@page import="vo.Customer"%>
+<%@page import="repository.CustomerDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
 <%
-if (session.getAttribute("user") == null) {
-	response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
-
-	return;
-}
-// 로그인한 session이 없으면 loginForm.jsp를 보여줌
+	request.setCharacterEncoding("UTF-8");
+	
+	String id = request.getParameter("customerId"); //name
+	
+	CustomerService customerService = new CustomerService(); //서비스 안에 DAO호출기능이 있으므로 서비스만 호출해주면 DAO 자동실행
+	
+	Customer customer = new Customer();
+	customer = customerService.customerOne(id);
+	
 %>
 
 <!DOCTYPE html>
@@ -21,32 +27,28 @@ if (session.getAttribute("user") == null) {
 	<table border="1">
 		<tr>
 			<td>ID</td>
-			<td><%=session.getAttribute("id")%></td>
+			<td><%=customer.getCustomerId()%></td>
 		</tr>
 		<tr>
-			<td>고객명</td>
-			<td><input type="text"
-				placeholder="<%=session.getAttribute("name")%>"></td>
+			<td>이름</td>
+			<td><%=customer.getCustomerName() %></td>
 		</tr>
 		<tr>
 			<td>주소</td>
-			<td><input type="text"
-				placeholder="<%=session.getAttribute("address")%>"></td>
+			<td><%=customer.getCustomerAddress()%></td>
 		</tr>
 		<tr>
-			<td>연락처</td>
-			<td><input type="text"
-				placeholder="<%=session.getAttribute("telephone")%>"></td>
+			<td>전화번호</td>
+			<td><%=customer.getCustomerTelephone()%></td>
 		</tr>
 		<tr>
-			<td>가입날짜</td>
-			<td><%=session.getAttribute("createDate")%></td>
+			<td>가입일</td>
+			<td><%=customer.getCreateDate()%></td>
 		</tr>
+		
 	</table>
-
-	<a
-		href="<%=request.getContextPath()%>/remove<%=session.getAttribute("user")%>Form.jsp">
-		회원탈퇴 </a>
+	<a href="<%=request.getContextPath()%>/modify<%=session.getAttribute("user")%>Form.jsp"> 정보수정 </a>
+	<a href="<%=request.getContextPath()%>/remove<%=session.getAttribute("user")%>Form.jsp"> 회원탈퇴 </a>
 
 </body>
 </html>
