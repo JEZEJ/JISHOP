@@ -12,43 +12,62 @@ import java.util.*;
 public class GoodsDao {
 	 
 	//상품추가
-	public int insertGoods(Connection conn, Goods goods) throws SQLException {
-		int keyId = 0;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		String sql = "INSERT INTO goods (goods_name, goods_price, update_date, create_date, sold_out) VALUES (?,?,now(),now(),?)";
-		try{
-			// 쿼리 실행
-			stmt = conn.prepareStatement(sql , Statement.RETURN_GENERATED_KEYS);
-			
-			// 1) insert
-			
-			stmt.setString(1, goods.getGoodsName());
-			stmt.setInt(2, goods.getGoodsPrice());
-			stmt.setString(3, goods.getSoldOut());
-			// 디버깅
-			System.out.println("\ninsertGoods - stmt : " + stmt);
-			
-			stmt.executeUpdate();
-			rs = stmt.getGeneratedKeys(); // select last_key
-			if(rs.next()) {
-				keyId = rs.getInt(1);
-			}
-		}finally {
-			// DB 자원해제
-			if(rs != null) {
-				rs.close();
-			}
-			if(stmt != null) {
-				stmt.close();
-			}
-		}
-		// 디버깅
-		System.out.println("\ninsertGoods - keyId : " + keyId);
-		return keyId;
-	} // end insertGoods
+		public int insertGoods(Connection conn, Goods goods) throws Exception {
+		
+		int goodsNo = 0;
+		
+		String sql = "insert into goods(goods_name, goods_price, update_date, create_date,sold_out)"
+				+ " values (?, ?, now(), now(),'N')";
 
-	
+		PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+		stmt.setString(1, goods.getGoodsName());
+		stmt.setInt(2, goods.getGoodsPrice());
+
+		stmt.executeUpdate(); 
+		
+		ResultSet rset = stmt.getGeneratedKeys(); // return 값 
+
+		if(rset.next()) {
+			goodsNo = rset.getInt(1);
+			System.out.println("GoodsDao.insertGoods 실행 >> "+ goodsNo);
+
+		}
+
+		if(rset != null) { rset.close(); }
+
+		if(stmt != null) { stmt.close(); }
+
+		return goodsNo;
+	}
+		
+	   //상품 품절 여부 변경 <GoodsList에서 가능>
+		public int updateGoodsSoldOut(Connection conn,Goods goods) throws SQLException {
+			
+			int row = 0;
+			
+			String sql = "UPDATE goods SET sold_out = ? WHERE goods_no = ?";
+			PreparedStatement stmt = null;
+			
+			try {
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, goods.getSoldOut());
+				stmt.setInt(2, goods.getGoodsNo());
+				
+				row = stmt.executeUpdate();
+				
+			} finally {
+				if(stmt!=null) {
+					stmt.close();
+				}
+			}
+			
+			return row;
+		}
+		
+	   //상품수정 
+	   
+	   //
 	   public Map<String, Object> selectGoodsAndImgOne(Connection conn, int goodsNo) throws SQLException {
 	
 		String sql ="SELECT g.goods_no,"
@@ -95,7 +114,7 @@ public class GoodsDao {
 	}
 	
 	
-	
+	//페이징
 	public int lastPage(Connection conn) throws SQLException {
 		
 		String sql= "SELECT COUNT(*) FROM goods"; 
@@ -123,9 +142,8 @@ public class GoodsDao {
 		return totalRow;
 	}
 	
-															
-	public List<Goods> selectGoodsListByPage(Connection conn, final int rowPerPage , int beginRow) throws Exception{
-	      
+	//상품리스트														
+	public List<Goods> selectGoodsListByPage(Connection conn, final int rowPerPage , int beginRow) throws Exception{      
 		   
 	      String sql = "SELECT goods_no,goods_name,goods_price,update_date , create_date ,sold_out FROM goods ORDER BY goods_no DESC LIMIT ?, ?";
 	      List<Goods> list = new ArrayList<Goods>(); 

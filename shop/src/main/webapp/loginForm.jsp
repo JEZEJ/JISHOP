@@ -30,7 +30,7 @@
 						<td><input type="password" name="customerPass" id="customerPass"></td>
 					</tr><!-- customerPass값으로 넘어감 // id=ajax설정 -->
 				</table>
-				<button type="submit" id="customerBtn">고객 로그인</button>
+				<button type="submit" id="customerBtn">고객 로그인</button><!-- button타입으로 하면 넘어가지않음 -->
 				<a href="<%=request.getContextPath()%>/addCustomer.jsp">일반회원가입</a><!-- 회원가입버튼 누르면 addCustomer로 넘어감 -->
 			</fieldset>
 		</form>

@@ -19,42 +19,77 @@ public class GoodsService {
 	private GoodsDao goodsDao;	
 
 	// 이미지 업로드
-	public void addGoods(Goods goods, GoodsImg goodsImg) {
-		// 메서드 사용할 객체생성
-		DBUtil dbUtil = new DBUtil();
-		this.goodsDao = new GoodsDao();
+	public int addGoods(Goods goods, GoodsImg goodsImg) {
 		int goodsNo = 0;
 		Connection conn = null;
-		
+
+
 		try {
-			conn = dbUtil.getConnection();
-			// 디버깅
-			System.out.println("GoodsService.java addGoods conn : " + conn);
-			
-			// 자동 commit 끄기
+			conn = new DBUtil().getConnection();
 			conn.setAutoCommit(false);
+			this.goodsDao = new GoodsDao();
+
+			goodsNo = goodsDao.insertGoods(conn, goods);
 			
-			goodsDao = new GoodsDao();
-			goodsImgDao = new GoodsImgDao();
-			
-			goodsNo = goodsDao.insertGoods(conn, goods); // goodsNo가 AI로 자동생성되어 DB입력
-			
-			if(goodsNo != 0) { // 0이 아니면 키가 있다는 뜻
-				// 키값 setter
+
+			System.out.println("goodsDao.insertGoods(): " + goodsNo);
+
+			if(goodsNo != 0) { 
 				goodsImg.setGoodsNo(goodsNo);
-				
+				this.goodsImgDao = new GoodsImgDao(); 
+
 				if(goodsImgDao.insertGoodsImg(conn, goodsImg) == 0) {
-					throw new Exception(); 
+					goodsNo = 0; 
+					System.out.println("goodsImgDao.insertGoods 실행 >> " + goodsNo);
+
+					throw new Exception();
+					
 				}
 			}
-			
+
 			conn.commit();
-		} catch(Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
-			// Exception 발생시
 			try {
 				conn.rollback();
-			} catch (Exception e1) {
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+
+		} finally {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+
+		return goodsNo;
+	}
+	
+	//sold_out값 변경
+	public int GoodssoldOut(Goods goods) {
+		
+		Connection conn = null;
+		int row = 0;
+		
+		try {
+			conn = new DBUtil().getConnection();
+			conn.setAutoCommit(false);
+			
+			GoodsDao goodsDao = new GoodsDao();
+			row = goodsDao.updateGoodsSoldOut(conn, goods);
+			
+			if (row == 0) {
+				throw new Exception();
+			}
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 		} finally {
@@ -64,8 +99,9 @@ public class GoodsService {
 				e.printStackTrace();
 			}
 		}
-	}
+		return row;
 
+	}
 	
 	public Map<String, Object> getGoodsAndImgOne(int goodsNo) {
 		Map<String,Object> map = null;
@@ -78,25 +114,22 @@ public class GoodsService {
 			GoodsDao goodsDao = new GoodsDao(); 	
 			map = goodsDao.selectGoodsAndImgOne(conn, goodsNo);
 			
-			System.out.print(map +"<-getGoodsAndImgOne map");
 			conn.commit();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} finally {
 			try {
 				conn.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		
 		return map;
 	}
 	
 	
-	
+	//페이징
 	public int getGoodsListLastPage(int rowPerPage) {
 		
 		Connection conn = null;

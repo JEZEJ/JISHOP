@@ -131,4 +131,6 @@ public class CustomerDao {
 		
 		return selectCustomer;
 	}
+	
+	//회원정보수정
 }

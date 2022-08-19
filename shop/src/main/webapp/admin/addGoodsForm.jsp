@@ -21,15 +21,13 @@
 				<td><input type="text" name="goods_price" id="goods_price"></td>
 			</tr>
 			<tr>
-				<td>품절여부</td>
-				<td><input type="text" name="sold_out" id="sold_out"></td>
-			</tr>
-			<tr>
 				<td>이미지파일</td>
 				<td><input type="file" name="imgFile"></td>
 			</tr>
 		</table>
 		<button type="submit" id="btn">상품등록</button>
+		<!-- 품절여부는 상품 세부정보에서 바꾸게 만들기 -->
+		<!-- 사진 안나옴 왜안나오는지 ... 모르겟음... 나왔는데 원래.. -->
 	</form>
 </body>
 </html>
