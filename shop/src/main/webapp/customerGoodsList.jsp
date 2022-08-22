@@ -6,8 +6,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-
-int rowPerPage = 20; //한페이지당 보여줄 행수 
+int rowPerPage = 1; //한페이지당 보여줄 행수 
 int currentPage = 1; //처음 시작할 현재 페이지
 int lastPage = 0;
 
@@ -18,7 +17,6 @@ if (request.getParameter("currentPage") != null) {
 GoodsService goodsService = new GoodsService();
 Map<String, Object> map = goodsService.getGoodsListByPage(rowPerPage, currentPage);
 lastPage = goodsService.getGoodsListLastPage(rowPerPage);
-
 %>
 <!DOCTYPE html>
 <html>
@@ -28,44 +26,41 @@ lastPage = goodsService.getGoodsListLastPage(rowPerPage);
 </head>
 <body>
 	<!-- 인기순,판매량순,높은/낮은 가격순,최신순으로 나오게 해야함 -->
-	<h1>상품관리</h1>
+	<h1>상품구매</h1>
+
 	<div>
 		<table border="1">
 			<thead>
 				<tr>
-					<th>상품이미지</th>
 					<th><img
 						src="<%=request.getContextPath()%>/upload/<%=map.get("fileName")%>"
 						width="200"></th>
 				</tr>
 				<tr>
-					<th>상품명</th>
-					<td><%=map.get("goodsName")%></td>
+					<td>상품명 : <%=map.get("goodsName")%></td>
 				</tr>
 				<tr>
-					<th>상품가격</th>
-					<td><%=map.get("goodsPrice")%></td>
+					<td>가격 : <%=map.get("goodsPrice")%></td>
 				</tr>
 			</thead>
 		</table>
-			<!-- 페이지 이전 다음 -->
+		<!-- 페이지 이전 다음 -->
 
-			<%
-			if (currentPage > 1) {
-			%>
-			<a
-				href="<%=request.getContextPath()%>/admin/adminGoodsList.jsp?currentPage=<%=currentPage - 1%>">이전</a>
-			<%
-			}
+		<%
+		if (currentPage > 1) {
+		%>
+		<a
+			href="<%=request.getContextPath()%>/customerGoodsList.jsp?currentPage=<%=currentPage - 1%>">이전</a>
+		<%
+		}
 
-			if (currentPage < lastPage) {
-			%>
-			<a
-				href="<%=request.getContextPath()%>/admin/adminGoodsList.jsp?currentPage=<%=currentPage + 1%>">다음</a>
-			<%
-			}
-			%>
-			<a href="<%=request.getContextPath()%>/admin/addGoodsForm.jsp">상품추가</a>
+		if (currentPage < lastPage) {
+		%>
+		<a
+			href="<%=request.getContextPath()%>/customerGoodsList.jsp?currentPage=<%=currentPage + 1%>">다음</a>
+		<%
+		}
+		%>
 	</div>
 </body>
 </html>

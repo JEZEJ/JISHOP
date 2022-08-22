@@ -14,7 +14,7 @@ public class SignService {
 		// SignDao signDao = new SignDao(); 1)
 		// SignService 안에서 사용하는 모든 SignDao는 동일한 SignDao
 		
-		System.out.println("SignService idCheck");
+		System.out.println("SignService안에있는 idCheck실행");
 		
 		boolean result = false; 
 		this.signDao = new SignDao(); 
@@ -46,7 +46,8 @@ public class SignService {
 					e.printStackTrace();
 				}
 			}
-			System.out.println("SignService result값"+result); 
+		
+			System.out.println("SignService.idCheck.result값 : " + result); 
 			return result;
 		}
 	

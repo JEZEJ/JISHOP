@@ -9,7 +9,6 @@
 
 
 <%
-
 	// 변수받아오기
 	String Pass = request.getParameter("Pass");
 	String customerId = (String) session.getAttribute("id");

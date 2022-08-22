@@ -11,6 +11,9 @@ import vo.*;
 public class EmployeeService {
 
 	public int getEmployeeListLastPage(int rowPerPage) {
+		
+		System.out.println("EmployeeService안에있는 getEmployeeListLastPage실행");
+		
 		Connection conn = null;
 
 		try {
@@ -20,7 +23,7 @@ public class EmployeeService {
 			EmployeeDao employeeDao = new EmployeeDao();
 			rowPerPage = employeeDao.EmployeelastPage(conn);
 
-			System.out.print(rowPerPage + "<-EmployeeService의 rowPerPage");
+			System.out.print("EmployeeService의 rowPerPage : " + rowPerPage);
 
 			if (rowPerPage == 0) {
 				throw new Exception();
@@ -45,13 +48,15 @@ public class EmployeeService {
 			}
 
 		}
-
+		System.out.println("EmployeeService.getEmployeeListLastPage.rowPerPage값 : " + rowPerPage);
 		return rowPerPage;
 
 	}
 
 	// 회원정보
 	public ArrayList<Employee> getEmployeeList(int rowPerPage, int currentPage) {
+		
+		System.out.println("EmployeeService안에있는 getEmployeeList실행");
 
 		ArrayList<Employee> list = new ArrayList<Employee>();
 		Connection conn = null;
@@ -85,13 +90,15 @@ public class EmployeeService {
 			}
 
 		}
-
+		System.out.println("EmployeeService.getEmployeeList.list값 : " + list);
 		return list;
 
 	}
 
 	// 회원가입
 	public void signInEmployee(Employee paramEmployee) {
+		
+		System.out.println("EmployeeService안에있는 signInEmployee실행");
 		
 		Connection conn = null;
 
@@ -131,6 +138,8 @@ public class EmployeeService {
 
 	// 회원탈퇴
 	public boolean removeEmployee(Employee paramEmployee) {
+		
+		System.out.println("EmployeeService안에있는 removeEmployee실행");
 
 		Connection conn = null;
 
@@ -171,11 +180,11 @@ public class EmployeeService {
 	// 로그인
 	public Employee loginEmployee(Employee paramEmployee) {
 		
-		Connection conn = null;
-
-		Employee employee = new Employee();
+		System.out.println("EmployeeService안에있는 loginEmployee실행");
 		
-
+		Connection conn = null;
+		Employee employee = new Employee(); //employee객체만들기
+		
 		try {
 			
 			conn = new DBUtil().getConnection();
@@ -183,6 +192,7 @@ public class EmployeeService {
 
 			EmployeeDao employeeDao = new EmployeeDao();
 			employee = employeeDao.selectEmployee(conn, paramEmployee);
+			System.out.println("service employee = "+ employee);
 
 			conn.commit();
 
@@ -198,11 +208,15 @@ public class EmployeeService {
 			}
 
 		}
+		
 		return employee;
 
 	}
-
+	
+	// 직원 active값 변경
 	public int EmployeeActive(Employee employee) {
+		
+		System.out.println("EmployeeService안에있는 EmployeeActive실행");
 		
 		Connection conn = null;
 		int row = 0;
@@ -232,6 +246,7 @@ public class EmployeeService {
 				e.printStackTrace();
 			}
 		}
+		System.out.println("EmployeeService.EmployeeActive.row값 : " + row);
 		return row;
 
 	}

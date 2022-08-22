@@ -12,43 +12,49 @@ public class EmployeeDao {
 
 	// 로그인
 	public Employee selectEmployee(Connection conn, Employee paramemployee) throws SQLException {
+		
+		System.out.println("EmployeeDao안에있는 selectEmployee(로그인) 실행");
 
 		Employee loginEmployee = null;
 
-		String sql = "SELECT employee_id employeeId, employee_pass employeePass, employee_name employeeName, update_date updateDate, create_date createDate, active active FROM employee WHERE employee_id=? AND employee_pass=PASSWORD(?) AND active='Y'";
+		String sql = "SELECT employee_id, employee_pass, employee_name, update_date, create_date, active FROM employee WHERE employee_id=? AND employee_pass=PASSWORD(?) AND active='Y'";
 
 		PreparedStatement stmt = null;
-		ResultSet rs = null;
+		ResultSet rset = null;
 
 		try {
 
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, paramemployee.getEmployeeId());
 			stmt.setString(2, paramemployee.getEmployeePass());
-			rs = stmt.executeQuery();
+			rset = stmt.executeQuery();
+			System.out.println("Dao : " + rset);
 
-			if (rs.next()) {
+			if (rset.next()) { 
+				
+				//쿼리가 실행이 안됬으면 rset이 0이라서 이부분이 실행이 안됨.
+				
 				loginEmployee = new Employee();
-				loginEmployee.setEmployeeId(rs.getString("employeeId"));
-				loginEmployee.setEmployeePass(rs.getString("employeePass"));
-				loginEmployee.setEmployeeName(rs.getString("employeeName"));
-				loginEmployee.setUpdateDate(rs.getString("updateDate"));
-				loginEmployee.setCreateDate(rs.getString("createDate"));
-				loginEmployee.setActive(rs.getString("active"));
-
+				loginEmployee.setEmployeeId(rset.getString("employee_id"));
+				loginEmployee.setEmployeePass(rset.getString("employee_pass"));
+				loginEmployee.setEmployeeName(rset.getString("employee_name"));
+				
+				System.out.println("loginEmployee : " + loginEmployee);
 			}
 
 		} finally {
 			
-			stmt.close();
-			rs.close();
+			if(stmt!=null) {stmt.close();}
+			if(rset!=null) {rset.close();}
 		}
-
+		
 		return loginEmployee;
 	}
 
 	// 회원가입
 	public int insertEmployee(Connection conn, Employee paramEmployee) throws SQLException {
+		
+		System.out.println("EmployeeDao안에있는 insertEmployee(회원가입) 실행");
 		
 		int row = 0;
 
@@ -68,11 +74,14 @@ public class EmployeeDao {
 			
 			stmt.close();
 		}
+		System.out.println("EmployeeDao.insertEmployee.row값 :"+row);
 		return row;
 	}
 
 	// 탈퇴
 	public int deleteEmployee(Connection conn, Employee paramEmployee) throws SQLException {
+		
+		System.out.println("EmployeeDao안에있는 deleteEmployee(탈퇴) 실행");
 
 		int row = 0;
 
@@ -95,13 +104,16 @@ public class EmployeeDao {
 
 			stmt.close();
 		}
-
+		System.out.println("EmployeeDao.deleteEmployee.row값 :"+row);
 		return row;
 	}
 
 	// 사원 상세보기
 	// 그 테이블의 값들을 전부 가져와야함
 	public ArrayList<Employee> SelectEmployeeList(Connection conn, int rowPerPage, int beginRow) throws SQLException {
+		
+		System.out.println("EmployeeDao안에있는 selectEmployeeList(직원목록) 실행");
+		
 		ArrayList<Employee> list = new ArrayList<Employee>();
 
 		// SELECT employee_id, employee_pass, employee_name, update_date, create_date,
@@ -111,40 +123,43 @@ public class EmployeeDao {
 		String sql = " SELECT employee_id, employee_pass, employee_name, update_date, create_date, active FROM employee ORDER BY create_date DESC LIMIT ?, ?";
 
 		PreparedStatement stmt = null;
-		ResultSet rs = null;
+		ResultSet rset = null;
 		Employee employee = new Employee();
 
 		try {
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, beginRow);
 			stmt.setInt(2, rowPerPage);
-			rs = stmt.executeQuery();
+			rset = stmt.executeQuery();
 
-			while (rs.next()) {
+			while (rset.next()) {
 				employee = new Employee();
-				employee.setEmployeeId(rs.getString("employee_id"));
-				employee.setEmployeePass(rs.getString("employee_pass"));
-				employee.setEmployeeName(rs.getString("employee_name"));
-				employee.setCreateDate(rs.getString("create_date"));
-				employee.setUpdateDate(rs.getString("update_date"));
-				employee.setActive(rs.getString("active"));
+				employee.setEmployeeId(rset.getString("employee_id"));
+				employee.setEmployeePass(rset.getString("employee_pass"));
+				employee.setEmployeeName(rset.getString("employee_name"));
+				employee.setCreateDate(rset.getString("create_date"));
+				employee.setUpdateDate(rset.getString("update_date"));
+				employee.setActive(rset.getString("active"));
 				list.add(employee);
 
 			}
 
 		} finally {
-			if (rs != null) {
-				rs.close();
+			if (rset != null) {
+				rset.close();
 			}
 			if (stmt != null) {
 				stmt.close();
 			}
 		}
+		System.out.println("EmployeeDao.SelectEmployeeList.list값 :"+list);
 		return list;
 	}
 
 	// 사원테이블 active 값 변경
 	public int updateEmployee(Connection conn, Employee paramEmployee) throws SQLException {
+		
+		System.out.println("EmployeeDao안에있는 updateEmployee(사원테이블 active값 변경) 실행");
 
 		int row = 0;
 
@@ -162,41 +177,45 @@ public class EmployeeDao {
 			
 		} finally {
 			
-			stmt.close();
+			if(stmt!=null) {stmt.close();}
 
 		}
 
+		System.out.println("EmployeeDao.updateEmployee.row값 :"+row);
 		return row;
 
 	}
 
+	// employee테이블 갯수를 출력해줌
 	public int EmployeelastPage(Connection conn) throws SQLException {
+		
+		System.out.println("EmployeeDao안에있는 employeeLastPage(employee테이블안에 값 갯수) 실행");
 
 		String sql = "SELECT COUNT(*) FROM employee";
 		PreparedStatement stmt = null;
-		ResultSet rs = null;
+		ResultSet rset = null;
 		int totalCount = 0;
 
 		try {
 			stmt = conn.prepareStatement(sql);
-			rs = stmt.executeQuery();
+			rset = stmt.executeQuery();
 
-			if (rs.next()) {
-				totalCount = rs.getInt("COUNT(*)");
+			if (rset.next()) {
+				totalCount = rset.getInt("COUNT(*)");
 			}
 
 			System.out.print(totalCount + "Employee의 dao");
 
 		} finally {
 
-			if (rs != null) {
-				rs.close();
+			if (rset != null) {
+				rset.close();
 			}
-			if (rs != null) {
+			if (rset != null) {
 				stmt.close();
 			}
 		}
-
+		System.out.println("EmployeeDao.EmployeelastPage.totalCount값 :"+totalCount);
 		return totalCount;
 
 	}

@@ -34,13 +34,11 @@
 				<a href="<%=request.getContextPath()%>/addCustomer.jsp">일반회원가입</a><!-- 회원가입버튼 누르면 addCustomer로 넘어감 -->
 			</fieldset>
 		</form>
-	</div>
+	</div><!-- employeeloginAction이랑 연결되어있음 -->
 	
 	<div id="Login">
-		<h1>관리자 로그인</h1> <!-- 관리자 active권한이 Y인 사람만 로그인 가능 -->
-		<form id="employeeForm"
-			action="<%=request.getContextPath()%>/employeeloginAction.jsp"
-			method="post">
+		<h1>관리자 로그인</h1> <!-- 관리자 active권한이 Y인 사람만 로그인 가능 (action에서 설정해줌)-->
+		<form action="<%=request.getContextPath()%>/employeeloginAction.jsp" method="post">
 			<fieldset>
 				<legend> 관리자 로그인</legend>
 				<table border="1">
@@ -54,12 +52,12 @@
 							id="employeePass"></td>
 					</tr>
 				</table>
-				<button type="button" id="employeeBtn">스텝 로그인</button>
+				<button type="submit" id="employeeBtn">스텝 로그인</button>
 				<a href="<%=request.getContextPath()%>/addEmployee.jsp">스텝회원가입</a>
 				<p>※ 직원인 경우 관리자가 가입승인 후 로그인가능합니다</p>
 			</fieldset>
 		</form>
-	</div>
+	</div><!-- employeeloginAction이랑 연결되어있음 -->
 </body>
 
 <script>
@@ -75,9 +73,9 @@
 	
 		$('#employeeBtn').click(function() {
 			if ($('#employeeId').val() == '') {
-				window.alert('스텝 아이디를 입력하세요');
+				window.alert('직원 아이디를 입력하세요');
 			} else if ($('#employeePass').val() == '') {
-				window.alert('스텝 비밀번호를 입력하세요');
+				window.alert('직원 비밀번호를 입력하세요');
 			} else {
 				employeeForm.submit();
 			}

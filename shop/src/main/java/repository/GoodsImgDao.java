@@ -11,10 +11,12 @@ public class GoodsImgDao {
 
 	// 상품이미지 보기
 	public GoodsImg selectGoodsImg(Connection conn, int goodsNo) throws SQLException {
+		
+		System.out.println("GoodsImgDao안에있는 selectGoodsImg 실행");
 
 		GoodsImg goodsImg = null;
 
-		String sql = "SELECT goods_no,filename,origin_filename,content_type,create_date From goods_img";
+		String sql = "SELECT goods_no,filename,origin_filename,content_type,create_date FROM goods_img";
 
 		PreparedStatement stmt = null;
 		ResultSet rset = null;
@@ -27,10 +29,10 @@ public class GoodsImgDao {
 			if (rset.next()) {
 
 				goodsImg = new GoodsImg();
-				goodsImg.setGoodsNo(rset.getInt("goodsNo"));
+				goodsImg.setGoodsNo(rset.getInt("goods_no"));
 				goodsImg.setFileName(rset.getString("fileName"));
-				goodsImg.setOriginFileName(rset.getString("originFilename"));
-				goodsImg.setCreateDate(rset.getString("createDate"));
+				goodsImg.setOriginFileName(rset.getString("origin_filename"));
+				goodsImg.setCreateDate(rset.getString("create_date"));
 
 			}
 		} finally {
@@ -43,12 +45,15 @@ public class GoodsImgDao {
 			}
 		}
 
+		System.out.println("GoodsImgDao.GoodsImg.goodsImg 값 : "+goodsImg);
 		return goodsImg;
 
 	}
 
 	// 상품이미지 추가해주기
 	public int insertGoodsImg(Connection conn, GoodsImg goodsImg) throws SQLException {
+		
+		System.out.println("GoodsImgDao안에있는 insertGoodsImg 실행");
 
 		int row = 0;
 
@@ -73,6 +78,7 @@ public class GoodsImgDao {
 				stmt.close();
 			}
 		}
+		System.out.println("GoodsImgDao.insertGoodsImg.row 값 : "+row);
 		return row;
 	}
 

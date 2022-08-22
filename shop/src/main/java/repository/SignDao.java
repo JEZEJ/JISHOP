@@ -12,24 +12,24 @@ public class SignDao {
 	// 아이디체크			
 	public String idCheck(Connection conn, String id) throws SQLException {
 		
-			System.out.println("Signdao idCheck");
+			System.out.println("SignDao안에있는 idCheck실행");
 			String ckId = null;
 
 			String sql = "SELECT t.id FROM (SELECT customer_id id FROM customer UNION SELECT employee_id id FROM employee UNION SELECT out_id id FROM outid) t WHERE t.id=?";
-			// 세개중에 있으면 쓸수없다 
+			// 세개중에 있으면 아이디를 쓸수없음
 		
 			PreparedStatement stmt= null;
-			ResultSet rs = null;
+			ResultSet rset = null;
 
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, id);			
-			rs = stmt.executeQuery();
+			rset = stmt.executeQuery();
 
-			if(rs.next()) {	
-				ckId = rs.getString("t.id");
+			if(rset.next()) {	
+				ckId = rset.getString("t.id");
 			}	
 			
-			System.out.println("Signdao idCheck : " + ckId);
+			System.out.println("Signdao.idCheck.ckId 값 : " + ckId);
 			return ckId;
 	}
 }

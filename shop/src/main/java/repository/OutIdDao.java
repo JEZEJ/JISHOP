@@ -11,34 +11,27 @@ public class OutIdDao {
 	
 
 	public int insertOutId(Connection conn, String customerId) throws SQLException {
+		
+		System.out.println("OutIdDao안에있는 insertOutId실행");
+		
 		int row = 0;
 		
-
-		/*
-		 INSERT INTO 
-		 outid (out_id, out_date) 
-		 VALUES (?, NOW())
-		 */
-		
-		String sql = "	 INSERT INTO \r\n"
-				+ "		 outid (out_id, out_date) \r\n"
-				+ "		 VALUES (?, NOW())";
+		String sql = "	 INSERT INTO outid (out_id, out_date) VALUES (?, NOW())";
 		
 		PreparedStatement stmt=null;
 		
 		try {
+			
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, customerId);
 			
 			row = stmt.executeUpdate();
 			
 		} finally {
-			stmt.close();
+			if(stmt!=null) {stmt.close();}
 			
 		}
-		
-		
-		
+		System.out.println("OutIdDao.insertOutId.row 값 : "+row);
 		return row;
 		
 	}
