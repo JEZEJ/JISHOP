@@ -14,7 +14,7 @@
 	System.out.println(dir);
 	
 	int max = 10 * 1024 * 1024; 
-	MultipartRequest mRequest = new MultipartRequest(request, dir, max, "utf-8", new DefaultFileRenamePolicy());
+	MultipartRequest mRequest = new MultipartRequest(request, dir, max, "UTF-8", new DefaultFileRenamePolicy());
 	
 	String goodsName = mRequest.getParameter("goods_name");
 	int goodsPrice = Integer.parseInt(mRequest.getParameter("goods_price"));
@@ -24,6 +24,7 @@
 	String contentType = mRequest.getContentType("imgFile");//파일타입확인
 	String OriginalFileName = mRequest.getOriginalFileName("imgFile"); //원본파일이름
 	
+	// 디버깅
 	System.out.println(goodsName + "goods_name"); 
 	System.out.println(goodsPrice + "goods_price");
 	System.out.println(soldOut +"sold_out" );
@@ -36,9 +37,9 @@
 	      if(f.exists()) {
 	         f.delete();
 	      }
-	      String errorMsg = URLEncoder.encode("이미지파일만 업로드 가능", "utf-8");
+	      String errorMsg = URLEncoder.encode("이미지파일만 업로드 가능", "UTF-8");
 	      response.sendRedirect(request.getContextPath()+"/addGoodsFrom.jsp?errorMsg="+errorMsg);
-	      return;
+	      return; // 이미지추가폼으로 이동
 	   }
 	
    Goods goods = new Goods();
@@ -50,13 +51,14 @@
    goodsImg.setContentType(contentType);
    goodsImg.setOriginFileName(OriginalFileName);
    
+   int row = 0;
    GoodsService goodsservice = new GoodsService();
-   int row = goodsservice.addGoods(goods, goodsImg);
+   row = goodsservice.addGoods(goods, goodsImg);
    if(row != 0){
-	      System.out.println("이미지 업로드 성공");
+	      System.out.println("이미지 업로드 성공 !");
 	      response.sendRedirect(request.getContextPath() + "/admin/adminGoodsList.jsp");
 	   } else {
-	      System.out.println("이미지 업로드 실패");
+	      System.out.println("이미지 업로드 실패 !");
 	      response.sendRedirect(request.getContextPath() + "/admin/addGoodsForm.jsp?errorMsg=img insert Fail");
 	   
 	   }

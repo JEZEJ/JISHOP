@@ -5,13 +5,14 @@
 
 <%
 	// 인코딩
-	request.setCharacterEncoding("utf-8");
+	request.setCharacterEncoding("UTF-8");
 
 	// 변수 받아오기
 	String customerId = request.getParameter("customerId");
 	String customerPass = request.getParameter("customerPass");
 	String customerName = request.getParameter("customerName");
-	String customerAddress = request.getParameter("customerAddress");
+	String customerAddress = request.getParameter("addr");
+	String customerDetailAddress = request.getParameter("detailAddr");
 	String customerTelephone = request.getParameter("customerTelephone");
 		
 	// Customer 객체 생성 후 값들 넣어주기	
@@ -20,6 +21,7 @@
 	paramCustomer.setCustomerPass(customerPass);
 	paramCustomer.setCustomerName(customerName);
 	paramCustomer.setCustomerAddress(customerAddress);
+	paramCustomer.setCustomerDetailAddress(customerDetailAddress);
 	paramCustomer.setCustomerTelephone(customerTelephone);
 	
 	System.out.println("내가 회원가입하기위해 입력한 값 : "+paramCustomer);

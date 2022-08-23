@@ -104,7 +104,9 @@ public class EmployeeDao {
 
 			stmt.close();
 		}
+		
 		System.out.println("EmployeeDao.deleteEmployee.row값 :"+row);
+		
 		return row;
 	}
 
@@ -119,11 +121,12 @@ public class EmployeeDao {
 		// SELECT employee_id, employee_pass, employee_name, update_date, create_date,
 		// active FROM employee ORDER BY crate_date DESC LIMIT ?, ?;
 
-		// 그냥 employee 리스트의 값 다 받아오는거니까
+		// 그냥 employee 리스트의 값 다 받아오는거니까 *은 되도록 쓰지말기
 		String sql = " SELECT employee_id, employee_pass, employee_name, update_date, create_date, active FROM employee ORDER BY create_date DESC LIMIT ?, ?";
 
 		PreparedStatement stmt = null;
 		ResultSet rset = null;
+		
 		Employee employee = new Employee();
 
 		try {
@@ -153,17 +156,19 @@ public class EmployeeDao {
 			}
 		}
 		System.out.println("EmployeeDao.SelectEmployeeList.list값 :"+list);
+		
 		return list;
 	}
 
 	// 사원테이블 active 값 변경
+	
 	public int updateEmployee(Connection conn, Employee paramEmployee) throws SQLException {
 		
 		System.out.println("EmployeeDao안에있는 updateEmployee(사원테이블 active값 변경) 실행");
 
 		int row = 0;
 
-		// update쿼리
+		// update쿼리 active값을 y 또는 n으로 변경
 		String sql = "UPDATE employee SET active = ? WHERE employee_id = ?";
 		PreparedStatement stmt = null;
 
@@ -182,6 +187,7 @@ public class EmployeeDao {
 		}
 
 		System.out.println("EmployeeDao.updateEmployee.row값 :"+row);
+		
 		return row;
 
 	}

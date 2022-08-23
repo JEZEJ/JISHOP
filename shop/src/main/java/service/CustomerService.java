@@ -90,46 +90,6 @@ public class CustomerService {
 			return true;
 		}
 	
-	// 강제탈퇴<해야함>
-		public boolean adminremoveCustomer (Customer paramCustomer) {
-			
-			
-			Connection conn = null;
-			
-			try {
-				conn = new DBUtil().getConnection();
-				conn.setAutoCommit(false); 
-				
-				CustomerDao customerDao = new CustomerDao(); 
-				if(customerDao.admindeleteCustomer(conn, paramCustomer) !=1) { 
-					throw new Exception();
-				}
-				OutIdDao OutIdDao = new OutIdDao();
-				if(OutIdDao.insertOutId(conn, paramCustomer.getCustomerId()) !=1) {
-						
-						throw new Exception();
-					}
-							
-				conn.commit(); 
-			} catch (Exception e) {
-				e.printStackTrace();
-				try {
-					conn.rollback(); // CustomerDao OutIdDao 
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				return false;
-			} finally {
-					try {
-						conn.close(); 
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				return true;
-			}
 	
 		// 로그인
 		public Customer loginCustomer (Customer paramCustomer) {

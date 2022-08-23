@@ -11,11 +11,9 @@
 	String Pass = request.getParameter("Pass");
 	String employeeId = (String)session.getAttribute("id");
 	
-	
-	
 	// 디버깅
-	System.out.println(Pass +"<-Pass");
-	System.out.println(employeeId +"<-employeeId");
+	System.out.println("비밀번호 : " + Pass);
+	System.out.println("직원아이디 : " + employeeId);
 	
 	
 	// Employee 객체 만들기

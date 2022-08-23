@@ -5,6 +5,7 @@ import java.sql.*;
 public class CounterDao {
 	
    public String selectCounterToday(Connection conn) {
+	   
       String result = null;
       // SELECT counter_date FROM counter WHERE counter_date = CURDATE()
       return result;   

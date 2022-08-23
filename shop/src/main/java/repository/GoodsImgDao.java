@@ -11,7 +11,7 @@ public class GoodsImgDao {
 
 	// 상품이미지 보기
 	public GoodsImg selectGoodsImg(Connection conn, int goodsNo) throws SQLException {
-		
+
 		System.out.println("GoodsImgDao안에있는 selectGoodsImg 실행");
 
 		GoodsImg goodsImg = null;
@@ -45,14 +45,14 @@ public class GoodsImgDao {
 			}
 		}
 
-		System.out.println("GoodsImgDao.GoodsImg.goodsImg 값 : "+goodsImg);
+		System.out.println("GoodsImgDao.GoodsImg.goodsImg 값 : " + goodsImg);
 		return goodsImg;
 
 	}
 
 	// 상품이미지 추가해주기
 	public int insertGoodsImg(Connection conn, GoodsImg goodsImg) throws SQLException {
-		
+
 		System.out.println("GoodsImgDao안에있는 insertGoodsImg 실행");
 
 		int row = 0;
@@ -78,8 +78,36 @@ public class GoodsImgDao {
 				stmt.close();
 			}
 		}
-		System.out.println("GoodsImgDao.insertGoodsImg.row 값 : "+row);
+		System.out.println("GoodsImgDao.insertGoodsImg.row 값 : " + row);
 		return row;
 	}
 
+	// 상품 수정할때 이미지도 같이 수정할거라 여기에도 수정쿼리 만들어줘야함
+	public int updateGoodsImg(Connection conn, GoodsImg goodsImg) throws Exception {
+		
+		int row = 0;
+
+		String sql = "UPDATE goods_img SET filename = ?, origin_filename = ?, content_type = ? WHERE goods_no = ?";
+
+		PreparedStatement stmt = null;
+
+		try {
+
+			stmt = conn.prepareCall(sql);
+			stmt.setString(1, goodsImg.getFileName());
+			stmt.setString(2, goodsImg.getOriginFileName());
+			stmt.setString(3, goodsImg.getContentType());
+			stmt.setInt(4, goodsImg.getGoodsNo());
+
+			row = stmt.executeUpdate(); //쿼리실행
+
+			System.out.println("updateGoodsImg의 row 값 : " + row);
+			
+		} finally {
+			
+			if (stmt != null) { stmt.close(); }
+		}
+
+		return row;
+	}
 }

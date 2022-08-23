@@ -2,10 +2,7 @@ package vo;
 
 public class Goods {
 	
-	private GoodsImg goodsImg; // 이러면 굿즈가 굿즈img도 받을 수 있엉
-//	// 이게 가장 FM인데 이러려면 정규화가 잘되어있어야한대
-	
-	
+	private GoodsImg goodsImg; 
 	
 	private int goodsNo;
 	private String goodsName;

@@ -7,7 +7,7 @@
 <%
 	request.setCharacterEncoding("UTF-8");			
 
-	String soldOut = request.getParameter("soldOut"); // select name= active값을 받아옴
+	String soldOut = request.getParameter("soldOut"); // select name = active값을 받아옴
 	int GoodsNo = Integer.parseInt(request.getParameter("GoodsNo")); // name값을 받아옴
 	
 	Goods goods = new Goods();

@@ -32,21 +32,29 @@ list = employeeService.getEmployeeList(ROW_PER_PAGE, currentPage);
 <head>
 <meta charset="UTF-8">
 <title>사원관리</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 	<div>
 		<h3>사원관리</h3>
+		
+		<nav class="navbar navbar-expand-sm bg-light navbar-light">
+		<ul class="navbar-nav">
+			<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/admin/adminIndex.jsp">홈으로</a></li>
+			<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/admin/adminNoticeList.jsp">공지관리</a>
+			<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/admin/adminGoodsList.jsp">상품관리</a></li>
+			<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/admin/adminOrdersList.jsp">주문관리</a></li>
+			<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/admin/adminNoticeList.jsp">공지관리</a>
+			</li>
+		</ul>
+	</nav>
 
-		<div>
-			<a href="<%=request.getContextPath()%>/admin/adminIndex.jsp">홈으로</a>
-			<a href="<%=request.getContextPath()%>/admin/adminCustomerList.jsp">고객관리</a>
-			<a href="<%=request.getContextPath()%>/admin/adminGoodsList.jsp">상품관리</a>
-			<a href="<%=request.getContextPath()%>/admin/adminOrdersList.jsp">주문관리</a>
-			<a href="<%=request.getContextPath()%>/admin/adminNoticeList.jsp">공지관리</a>
-		</div>
-		<br />
-		<table border="1">
-			<thead>
+<table class="table">
+    <thead class="thead-light">
 				<tr>
 					<th>ID</th>
 					<th>사원명</th>
@@ -93,7 +101,6 @@ list = employeeService.getEmployeeList(ROW_PER_PAGE, currentPage);
 				%>
 
 			</tbody>
-
 		</table>
 	</div>
 

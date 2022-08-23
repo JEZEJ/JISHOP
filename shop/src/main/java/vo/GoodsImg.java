@@ -1,6 +1,7 @@
 package vo;
 
 public class GoodsImg {
+	
 	private int goodsNo;
 	private String fileName;
 	private String originFileName;

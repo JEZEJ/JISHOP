@@ -127,7 +127,7 @@ public class OrdersDao {
 		   return totalCount;		   
 	   }
 	  
-	  // 배송상태 수정
+	  // 배송상태 수정 
 	  
 	  public int updateOrdersOne(Connection conn,Orders orders) throws SQLException {
 		  

@@ -11,15 +11,15 @@ import vo.Customer;
 
 public class CustomerDao {
 
-	// 회원가입
+	// 회원가입 주소API를 사용해서 주소 넣어주기 o
 	public int insertCustomer(Connection conn, Customer paramCustomer) throws SQLException {
 		
 		System.out.println("CustomerDao안에있는 insertCustomer(회원가입) 실행");
 
 		int row = 0;
-
+		
 		// customer테이블에 값 넣어주기
-		String sql = "INSERT INTO customer (customer_id,customer_pass,customer_name,customer_address,customer_telephone,update_date,create_date) VALUES (?, PASSWORD(?), ?, ?, ?, NOW(), NOW())";
+		String sql = "INSERT INTO customer (customer_id,customer_pass,customer_name,customer_address,customer_detailaddress,customer_telephone,update_date,create_date) VALUES (?, PASSWORD(?), ?, ?, ?, ?, NOW(), NOW())";
 
 		PreparedStatement stmt = null;
 
@@ -30,7 +30,8 @@ public class CustomerDao {
 			stmt.setString(2, paramCustomer.getCustomerPass());
 			stmt.setString(3, paramCustomer.getCustomerName());
 			stmt.setString(4, paramCustomer.getCustomerAddress());
-			stmt.setString(5, paramCustomer.getCustomerTelephone());
+			stmt.setString(5, paramCustomer.getCustomerDetailAddress());
+			stmt.setString(6, paramCustomer.getCustomerTelephone());
 
 			row = stmt.executeUpdate();
 
@@ -75,38 +76,7 @@ public class CustomerDao {
 		System.out.println("CustomerDao.deleteCustomer.row값 : " + row);
 		return row;
 	}
-	
-	// 강제회원탈퇴 이거해야함 --> 직원이 고객테이블 강제회원탈퇴 시키는거
-	public int admindeleteCustomer(Connection conn, Customer paramCustomer) throws SQLException {
 		
-		System.out.println("CustomerDao안에있는 admindeleteCustomer(강제회원탈퇴) 실행");
-
-		int row = 0;
-
-		// customer테이블에서 값 삭제하기 <회원탈퇴>
-		String sql = " DELETE FROM customer WHERE customer_id=?;";
-
-		PreparedStatement stmt = null;
-
-		try {
-
-			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, paramCustomer.getCustomerId());
-			stmt.setString(2, paramCustomer.getCustomerPass());
-
-			row = stmt.executeUpdate();
-
-		} finally {
-
-			if (stmt != null) {
-				stmt.close();
-			}
-		}
-		
-		return row;
-	}
-	
-	
 	// 로그인
 	public Customer selectCustomer(Connection conn, Customer paramcustomer) throws Exception {
 		
@@ -191,7 +161,9 @@ public class CustomerDao {
 		
 		int row = 0;
 		
-		String sql = "UPDATE customer SET customer_name = ? , customer_address=?,customer_telephone=? WHERE customer_id = ?";
+		// 이름,주소,상세주소,번호 바꾸는 쿼리
+		String sql = "UPDATE customer SET customer_name = ? , customer_address=?, customer_detailaddress=?, customer_telephone=? WHERE customer_id=?";
+			
 		PreparedStatement stmt = null;
 		
 		try {
@@ -199,7 +171,9 @@ public class CustomerDao {
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, paramCustomer.getCustomerName());
 			stmt.setString(2, paramCustomer.getCustomerAddress());
-			stmt.setString(3, paramCustomer.getCustomerTelephone());
+			stmt.setString(3, paramCustomer.getCustomerDetailAddress());
+			stmt.setString(4, paramCustomer.getCustomerTelephone());
+			stmt.setString(5, paramCustomer.getCustomerId());
 			
 			row = stmt.executeUpdate();
 			

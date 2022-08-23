@@ -42,7 +42,8 @@ public class GoodsDao {
 		return row;
 	}
 		
-	   //상품 품절 여부 변경 <GoodsList에서 가능>
+		
+	  // 상품 품절여부 변경 <GoodsList에서 가능> -- 만드는중
 		public int updateGoodsSoldOut(Connection conn,Goods goods) throws SQLException {
 			
 			System.out.println("GoodsDao안에있는 updateGoodsSoldOut(상품품절여부 변경) 실행");
@@ -68,7 +69,7 @@ public class GoodsDao {
 			return row;
 		}
 		
-	   // 상품 상세보기 사진
+	   // 상품 상세보기 사진 ( 상세보기 하려면 테이블 3개 조인 ) -- > goods 테이블 / goods_img 테이블 / orders 테이블
 		public Map<String,Object> selectGoodsAndImgOne(Connection conn, int goodsNo) throws SQLException {
 			
 			Map<String,Object> map = new HashMap<String,Object>();
@@ -98,17 +99,48 @@ public class GoodsDao {
 			
 			}
 		
-			System.out.println("map >> " + map);
+			System.out.println("map 값 : " + map);
 			
 			return map;
 			
 		}	
 		
+	//상품수정하기
+		
+	public int updateGoods(Connection conn,Goods goods) throws SQLException {
+		
+		System.out.println("GoodsDao안에있는 updateGoods실행");
+		
+		int row;
+		
+		// 수정이니깐 업데이트 쿼리
+		String sql = "UPDATE goods SET goods_name = ?, goods_price = ?, sold_out = ?, update_date = NOW() WHERE goods_no = ?";
+		
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = conn.prepareStatement(sql); 
+			//set해서 값 넣어주기
+			stmt.setString(1, goods.getGoodsName());
+			stmt.setInt(2, goods.getGoodsPrice());
+			stmt.setString(3, goods.getSoldOut());
+			stmt.setInt(4, goods.getGoodsNo());
+			
+			row = stmt.executeUpdate(); // 쿼리 실행
+			
+		} finally {
+			
+			if(stmt != null) {stmt.close();}
+		}
+		
+		return row;
+	}
+		
 	
 	//상품리스트														
-	public Map<String,Object> selectGoodsListByPage(Connection conn, final int rowPerPage , int beginRow) throws Exception{   
+	public List<Map<String,Object>> selectGoodsListByPage(Connection conn, int rowPerPage , int beginRow) throws Exception{   
 		
-		  Map<String,Object> map = new HashMap<String,Object>(); //두가지 테이블을 조인해야하기때문에 Map으로 주기
+		  List<Map<String,Object>> list = null; //두가지 테이블을 조인해야하기때문에 Map으로 주기
 		
 		  System.out.println("GoodsDao안에있는 selectGoodsListByPage(상품리스트) 실행");
 		   
@@ -118,27 +150,40 @@ public class GoodsDao {
 	      PreparedStatement stmt = null;
 	      ResultSet rset =null;
 	      
-	         stmt = conn.prepareStatement(sql);
-	         stmt.setInt(1, beginRow);
-	         stmt.setInt(2, rowPerPage);
-	         rset = stmt.executeQuery();
-	         
-	         while(rset.next()) {
-	        	 map.put("goodsNo", rset.getInt("g.goods_no"));
-	        	 map.put("goodsName", rset.getString("g.goods_name"));
-	        	 map.put("goodsPrice", rset.getInt("g.goods_price"));
-	        	 map.put("fileName", rset.getString("gi.filename"));
-	          
-	         }
-	           
-	      return map;
+	      try {
+			   list = new ArrayList<Map<String,Object>>();
+			   stmt = conn.prepareStatement(sql);
+			   stmt.setInt(1, beginRow);
+			   stmt.setInt(2, rowPerPage);
+			   rset = stmt.executeQuery();
+		   
+		   while(rset.next()) {
+			   Map<String, Object> map = new HashMap<String, Object>();
+			   
+			  map.put("goodsNo", rset.getInt("g.goods_no"));
+			  map.put("goodsName", rset.getString("g.goods_name"));
+			  map.put("goodsPrice", rset.getString("g.goods_price"));
+			  map.put("filename", rset.getString("gi.filename"));
+			  
+			  list.add(map);
+			
+		   		}
+		   
+		   } finally {
+			   if(rset != null) { rset.close();	}
+			   if(stmt != null) { stmt.close(); }
+		   }
+		   return list;
 	        
 	   }
 	
-		// 라스트페이지
+		// 라스트페이지 (리스트랑 세트)
+	
 		public int goodsLastPage(Connection conn) throws SQLException {
 		
 		String sql = "SELECT COUNT(*) FROM goods";
+		// 카운트로 상품테이블 갯수를 카운트해줘야함
+		
 		PreparedStatement stmt = null;
 		ResultSet rset = null;
 		int lastPage = 0;

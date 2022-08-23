@@ -5,6 +5,7 @@
 
 <%
 	int goodsNo = Integer.parseInt(request.getParameter("goodsNo")); 
+
 	GoodsService goodsService = new GoodsService();
 	Map<String, Object> map = goodsService.getGoodsAndImgOne(goodsNo);
 %>
@@ -15,8 +16,27 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
+	<nav class="navbar navbar-expand-sm bg-light navbar-light">
+		<ul class="navbar-nav">
+			<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/logout.jsp">로그아웃</a></li>
+			<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/customerOne.jsp?customerId=<%=session.getAttribute("id")%>">회원정보</a></li>
+			<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/customerGoodsList.jsp">상품보기</a></li>
+			<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/noticeList.jsp">공지사항</a></li>
+			<li class="nav-item active"><a class="nav-link" href="">구매내역</a>
+			</li>
+		</ul>
+	</nav>
 		<h1>상품 정보</h1>
 	<table>
 		<tr>
@@ -46,10 +66,8 @@
 		<tr>
 			<th>상품품절여부</th>
 			<td><%=map.get("soldOut")%></td>	
-		</tr>
-		<tr>
-		<td>구매하기</td>
-		</tr>
+			
+		</tr><!-- 구매하기도 해야함 -->
 	</table>
 	<a href="<%=request.getContextPath()%>/customerGoodsList.jsp">돌아가기</a>
 </body>

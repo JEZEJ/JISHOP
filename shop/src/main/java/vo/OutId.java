@@ -1,8 +1,10 @@
 package vo;
 
 public class OutId {
+	
 	private String outId;
 	private String outDate;
+	
 	public String getOutId() {
 		return outId;
 	}

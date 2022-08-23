@@ -11,8 +11,6 @@ public class SignService {
 	
 	
 	public boolean idCheck(String id) {
-		// SignDao signDao = new SignDao(); 1)
-		// SignService 안에서 사용하는 모든 SignDao는 동일한 SignDao
 		
 		System.out.println("SignService안에있는 idCheck실행");
 		
@@ -32,9 +30,9 @@ public class SignService {
 			conn.commit(); 
 		
 		} catch(Exception e) {
-			e.printStackTrace(); // 콘솔에 문제있슴다 하고 출력
+			e.printStackTrace(); 
 			try {
-				conn.rollback(); // 만약 예외있음 커밋대신 롤백
+				conn.rollback(); 
 			} catch (SQLException e1) {				
 				e1.printStackTrace();
 			} 

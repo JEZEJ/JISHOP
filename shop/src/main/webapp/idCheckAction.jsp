@@ -23,15 +23,13 @@
  	// SignService 객체 사용
  	SignService signService = new SignService(); 	 
  	
- 	//String result1 =signService.idCheck(ckId);
- 	//request.getParameter("result1");
  	
  	boolean result =signService.idCheck(ckId);
- 	System.out.println(result +"<-result");		
+ 	System.out.println("result : " + result);		
  			
  	if(result == false ){ //아이디가 있을때 false	
  	// service -> false
- 	response.sendRedirect(request.getContextPath()+"/addCustomer.jsp?errorMsg=already exists Id");
+ 	response.sendRedirect(request.getContextPath()+"/addCustomer.jsp?errorMsg=already Id");
  	// 													
  	}  else {
  	// service -> true

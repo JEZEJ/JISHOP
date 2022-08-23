@@ -1,13 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
-   
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
+
 	if(session.getAttribute("user") == null) { 
-		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
-			
-		return;
-	} 		
-%>        
-        
+	response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
+		
+	return;
+	} 
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,17 +24,20 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-	<h1> 스텝탈퇴 </h1>
-	<form action ="<%=request.getContextPath()%>/removeEmployeeAction.jsp" method="post">
-	<table border="1">
-		<tr>
-			<td> 비밀번호 입력 </td>
-			<td> <input type="password" name="Pass" id="Pass"></td>
-			
-		</tr>
-	
-	</table>
-	<button type="submit"> 탈퇴 </button>
-</form>
+	<h3>공지사항 등록</h3>
+	<form action="<%=request.getContextPath()%>/insertNoticeAction.jsp"
+		method="post">
+		<table border="1">
+			<tr>
+				<td>제목</td>
+				<td><input type="text" name="title" id="title"></td>
+			</tr>
+			<tr>
+				<td>내용</td>
+				<td><textarea row="5" col="30" name="content" id="content"></textarea></td>
+			</tr>
+		</table>
+		<button type="submit">등록</button>
+	</form>
 </body>
 </html>

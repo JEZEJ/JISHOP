@@ -9,7 +9,7 @@ import vo.OutId;
 
 public class OutIdDao {
 	
-
+	// 회원탈퇴를 하게되면 탈퇴한 아이디가 들어감
 	public int insertOutId(Connection conn, String customerId) throws SQLException {
 		
 		System.out.println("OutIdDao안에있는 insertOutId실행");

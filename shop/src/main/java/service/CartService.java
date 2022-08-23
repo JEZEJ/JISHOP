@@ -24,7 +24,7 @@ public class CartService {
 			row = cartDao.insertCart(conn, cart);
 			
 			if(row == 0) {
-				System.out.println("실패");
+				System.out.println("카트 담기 실패 !");
 				throw new Exception();
 			}
 			conn.commit();

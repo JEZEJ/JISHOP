@@ -1,6 +1,7 @@
 package vo;
 
 public class Id {
+	
 	private String id;
 
 	public String getId() {

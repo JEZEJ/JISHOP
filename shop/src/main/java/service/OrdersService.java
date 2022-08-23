@@ -191,9 +191,9 @@ public class OrdersService {
 				OrdersDao ordersDao = new OrdersDao();
 				
 				m = ordersDao.selectOrdersOne(conn, orderNo);
-				System.out.println(m +"<-getOrdersListByEmployee의 m");
+				System.out.println( "getOrdersListByEmployee의 m값"+m);
 				
-				if(m ==null ) {
+				if(m == null ) {
 					throw new Exception();
 				}
 				conn.commit();

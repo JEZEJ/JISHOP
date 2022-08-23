@@ -9,7 +9,7 @@ import vo.*;
 
 public class SignDao {
 	
-	// 아이디체크			
+	// 아이디체크	<없는 아이디 넣기위해> 아이디 중복 xx	
 	public String idCheck(Connection conn, String id) throws SQLException {
 		
 			System.out.println("SignDao안에있는 idCheck실행");
