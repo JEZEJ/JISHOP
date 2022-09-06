@@ -2,11 +2,10 @@ package vo;
 
 public class Goods {
 	
-	private GoodsImg goodsImg; 
-	
 	private int goodsNo;
 	private String goodsName;
 	private int goodsPrice;
+	private String goodsContent;
 	private String updateDate;
 	private String createDate;
 	private String soldOut;
@@ -48,6 +47,13 @@ public class Goods {
 	public void setSoldOut(String soldOut) {
 		this.soldOut = soldOut;
 	}
+	public String getGoodsContent() {
+		return goodsContent;
+	}
+	public void setGoodsContent(String goodsContent) {
+		this.goodsContent = goodsContent;
+	}
+	
 	
 }
 

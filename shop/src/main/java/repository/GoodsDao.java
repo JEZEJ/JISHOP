@@ -18,12 +18,13 @@ public class GoodsDao {
 		
 		int row = 0;
 		
-		String sql = "insert into goods(goods_name, goods_price, update_date, create_date,sold_out) values (?, ?, now(), now(),'N')";
+		String sql = "insert into goods(goods_name, goods_price,goods_content,update_date, create_date,sold_out) values (?, ?,?, now(), now(),'N')";
 
 		PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
 		stmt.setString(1, goods.getGoodsName());
 		stmt.setInt(2, goods.getGoodsPrice());
+		stmt.setString(3, goods.getGoodsContent());
 
 		stmt.executeUpdate(); 
 		
@@ -76,7 +77,7 @@ public class GoodsDao {
 			// SELECT g.*, gi.* FROM goods g INNER JOIN goods_img gi 
 			// ON g.goods_no = gi.goods_no WHERE g.goods_no = 1
 			
-			String sql = "SELECT g.goods_no,g.goods_name,g.goods_price,g.update_date,g.create_date,g.sold_out, gi.goods_no,gi.filename, gi.origin_filename,gi.content_type,gi.create_date FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no WHERE g.goods_no = ?";
+			String sql = "SELECT g.goods_no,g.goods_name,g.goods_price,g.goods_content,g.update_date,g.create_date,g.sold_out, gi.goods_no,gi.filename, gi.origin_filename,gi.content_type,gi.create_date FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no WHERE g.goods_no = ?";
 			PreparedStatement stmt = null;
 			ResultSet rset = null;
 			
@@ -88,6 +89,7 @@ public class GoodsDao {
 				map.put("goodsNo", rset.getInt("g.goods_no"));
 				map.put("goodsName",rset.getString("g.goods_name"));
 				map.put("goodsPrice", rset.getInt("g.goods_price"));
+				map.put("goodsContent", rset.getString("g.goods_content"));
 				map.put("updateDate",rset.getString("g.update_date") );
 			    map.put("createDate", rset.getString("g.create_date"));
 			    map.put("soldOut",rset.getString("g.sold_out") );

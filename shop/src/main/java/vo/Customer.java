@@ -9,6 +9,7 @@ public class Customer {
 	private String customerTelephone;
 	private String updateDate;
 	private String createDate;
+	
 	public String getCustomerId() {
 		return customerId;
 	}

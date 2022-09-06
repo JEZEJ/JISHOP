@@ -4,6 +4,9 @@ public class Employee {
 	private String employeeId;
 	private String employeePass;
 	private String employeeName;
+	private String employeeAddress;
+	private String employeeDetailaddress;
+	private String employeeTelephone;
 	private String updateDate;
 	private String createDate;
 	private String active;
@@ -25,6 +28,24 @@ public class Employee {
 	public void setEmployeeName(String employeeName) {
 		this.employeeName = employeeName;
 	}
+	public String getEmployeeAddress() {
+		return employeeAddress;
+	}
+	public void setEmployeeAddress(String employeeAddress) {
+		this.employeeAddress = employeeAddress;
+	}
+	public String getEmployeeDetailaddress() {
+		return employeeDetailaddress;
+	}
+	public void setEmployeeDetailaddress(String employeeDetailaddress) {
+		this.employeeDetailaddress = employeeDetailaddress;
+	}
+	public String getEmployeeTelephone() {
+		return employeeTelephone;
+	}
+	public void setEmployeeTelephone(String employeeTelephone) {
+		this.employeeTelephone = employeeTelephone;
+	}
 	public String getUpdateDate() {
 		return updateDate;
 	}
@@ -43,5 +64,6 @@ public class Employee {
 	public void setActive(String active) {
 		this.active = active;
 	}
+	
 
 }

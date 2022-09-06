@@ -9,21 +9,19 @@ public class CartService {
 	
 	private CartDao cartDao;
 	
-	public boolean addCart(Cart cart) {
-		
-		boolean result = false;
-		int row = 0;
-		
+	public int addCart(Cart cart) {
+			
+		int result = 0;
 		Connection conn = null;
 		
 		try {
 			
-			conn = new DBUtil().getConnection();	
-			conn.setAutoCommit(false);
+			conn = new DBUtil().getConnection(); //디비연동
+			conn.setAutoCommit(false); // 자동커밋방지
 			
-			row = cartDao.insertCart(conn, cart);
+			result = cartDao.insertCart(conn, cart);
 			
-			if(row == 0) {
+			if(result == 0) {
 				System.out.println("카트 담기 실패 !");
 				throw new Exception();
 			}

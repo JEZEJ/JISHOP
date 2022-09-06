@@ -58,7 +58,7 @@ public class EmployeeDao {
 		
 		int row = 0;
 
-		String sql = "INSERT INTO Employee ( employee_id, employee_pass, employee_name, update_date, create_date, active) VALUES ( ?, PASSWORD(?), ?, NOW(), NOW(), 'N')";
+		String sql = "INSERT INTO Employee ( employee_id, employee_pass, employee_name,employee_address,employee_detailaddress,employee_telephone,update_date, create_date, active) VALUES ( ?, PASSWORD(?), ?,?,?,?, NOW(), NOW(), 'N')";
 
 		PreparedStatement stmt = null;
 
@@ -67,6 +67,9 @@ public class EmployeeDao {
 			stmt.setString(1, paramEmployee.getEmployeeId());
 			stmt.setString(2, paramEmployee.getEmployeePass());
 			stmt.setString(3, paramEmployee.getEmployeeName());
+			stmt.setString(4, paramEmployee.getEmployeeAddress());
+			stmt.setString(5, paramEmployee.getEmployeeDetailaddress());
+			stmt.setString(6, paramEmployee.getEmployeeTelephone());
 
 			row = stmt.executeUpdate();
 			

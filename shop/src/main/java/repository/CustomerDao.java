@@ -14,18 +14,18 @@ public class CustomerDao {
 	// 회원가입 주소API를 사용해서 주소 넣어주기 o
 	public int insertCustomer(Connection conn, Customer paramCustomer) throws SQLException {
 		
-		System.out.println("CustomerDao안에있는 insertCustomer(회원가입) 실행");
+		System.out.println("CustomerDao안에있는 insertCustomer 실행");
 
 		int row = 0;
 		
-		// customer테이블에 값 넣어주기
+		// customer테이블에 값 넣어주기 (회원가입)
 		String sql = "INSERT INTO customer (customer_id,customer_pass,customer_name,customer_address,customer_detailaddress,customer_telephone,update_date,create_date) VALUES (?, PASSWORD(?), ?, ?, ?, ?, NOW(), NOW())";
 
 		PreparedStatement stmt = null;
 
 		try { // ?값 넣어주기
 
-			stmt = conn.prepareStatement(sql);
+			stmt = conn.prepareStatement(sql); //vo에서 꺼내와서 stmt 쿼리에 넣어주기
 			stmt.setString(1, paramCustomer.getCustomerId());
 			stmt.setString(2, paramCustomer.getCustomerPass());
 			stmt.setString(3, paramCustomer.getCustomerName());
@@ -43,6 +43,7 @@ public class CustomerDao {
 		}
 
 		System.out.println("CustomerDao.insertCustomer.row값 : " + row);
+		// row가 0이면 실패 1이면 성공
 		return row;
 	}
 

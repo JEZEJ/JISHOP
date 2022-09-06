@@ -15,7 +15,7 @@ public class CustomerService {
 	// 회원가입
 	public void signInCustomer(Customer paramCustomer) {
 		
-		System.out.println("CustomerSerive안에있는 sigdInCustomer실행");
+		System.out.println("CustomerSerive안에있는 sigdInCustomer 실행"); // 회원가입을 하면 첫번째로 실행
 		Connection conn = null;
 		
 		try {
